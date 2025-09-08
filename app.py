@@ -84,7 +84,7 @@ class INSClient:
     
     def _fetch_ethernet_status(self) -> INSData:
         """Récupère le statut via connexion Ethernet"""
-        url = f"{self.base_url}/api/v1/info"
+        url = f"{self.base_url}/api/v1/data"
         headers = {'Accept': 'application/json'}
         
         response = requests.get(
@@ -127,12 +127,12 @@ class INSClient:
         """Parse la réponse de l'API et extrait les informations pertinentes"""
         # Extraction de la position
         position = {}
-        if 'position' in data:
-            pos_data = data['position']
+        if 'ekf' in data:
+            ekf_data = data['ekf']
             position = {
-                'latitude': pos_data.get('latitude', 0.0),
-                'longitude': pos_data.get('longitude', 0.0),
-                'altitude': pos_data.get('altitude', 0.0)
+                'latitude': ekf_data.get('latitude', 0.0),
+                'longitude': ekf_data.get('longitude', 0.0),
+                'altitude': ekf_data.get('altitude', 0.0)
             }
         
         # Extraction de l'attitude
@@ -224,38 +224,17 @@ class INSMonitor:
         return None
 
 # Configuration des systèmes INS
-INS_CONFIGS = [
-    INSConfig(
-        id="ins_001",
-        name="INS Principal",
-        connection_type="ethernet",
-        ip_address="10.78.10.162"
-    ),
-    INSConfig(
-        id="ins_002", 
-        name="INS Secondaire",
-        connection_type="ethernet",
-        ip_address="10.78.10.149"
-    ),
-    INSConfig(
-        id="ins_003", 
-        name="INS Secondaire",
-        connection_type="ethernet",
-        ip_address="10.78.10.97"
-    ),
-    INSConfig(
-        id="ins_004", 
-        name="INS Secondaire",
-        connection_type="ethernet",
-        ip_address="10.78.10.145"
-    ),
-    # INSConfig(
-    #     id="ins_003",
-    #     name="INS Mobile",
-    #     connection_type="serial",
-    #     serial_port="/dev/ttyUSB0"
-    # )
-]
+INS_CONFIGS = []
+with open('config.json', 'r') as f:
+    configs_json_data = json.load(f)
+    for config_json_data in configs_json_data:
+        INS_CONFIGS.append(INSConfig(
+                    id=config_json_data["id"], 
+                    name=config_json_data["name"],
+                    connection_type=config_json_data["connection_type"],
+                    ip_address=config_json_data["ip_address"]
+                    ))
+
 
 # Création de l'application Flask
 app = Flask(__name__)
