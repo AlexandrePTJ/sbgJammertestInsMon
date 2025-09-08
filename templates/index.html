@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surveillance INS SBG Systems</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .system-status {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .ins-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .ins-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .ins-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .ins-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .ins-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+
+        .status-online {
+            background: #4CAF50;
+        }
+
+        .status-offline {
+            background: #f44336;
+            animation: none;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+        }
+
+        .data-section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .data-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .data-item:hover {
+            background: #e9ecef;
+        }
+
+        .data-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .gnss-status {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .gnss-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .fix-type-no-fix { background: #ffebee; color: #c62828; }
+        .fix-type-2d { background: #fff3e0; color: #ef6c00; }
+        .fix-type-3d { background: #e8f5e8; color: #2e7d32; }
+        .fix-type-dgps { background: #e3f2fd; color: #1565c0; }
+        .fix-type-rtk { background: #f3e5f5; color: #7b1fa2; }
+
+        .timestamp {
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+
+        .connection-type {
+            font-size: 0.8rem;
+            color: #666;
+            background: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🛰️ Surveillance INS SBG Systems</h1>
+        <div class="system-status" id="systemStatus">
+            <span id="statusText">Initialisation...</span>
+        </div>
+    </div>
+
+    <div class="ins-container" id="insContainer">
+        {% for config in ins_configs %}
+        <div class="ins-card" data-ins-id="{{ config.id }}">
+            <div class="ins-header">
+                <div>
+                    <div class="ins-name">{{ config.name }}</div>
+                    <div class="connection-type">
+                        {% if config.connection_type == 'ethernet' %}
+                            🌐 {{ config.ip_address }}:{{ config.port }}
+                        {% else %}
+                            🔌 {{ config.serial_port }}
+                        {% endif %}
+                    </div>
+                </div>
+                <span class="status-indicator status-offline" id="status-{{ config.id }}"></span>
+            </div>
+
+            <div class="data-section">
+                <div class="section-title">
+                    📍 Position
+                </div>
+                <div class="data-grid">
+                    <div class="data-item">
+                        <div class="data-label">Latitude</div>
+                        <div class="data-value" id="lat-{{ config.id }}">--</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Longitude</div>
+                        <div class="data-value" id="lon-{{ config.id }}">--</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Altitude (m)</div>
+                        <div class="data-value" id="alt-{{ config.id }}">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-section">
+                <div class="section-title">
+                    📐 Attitude
+                </div>
+                <div class="data-grid">
+                    <div class="data-item">
+                        <div class="data-label">Roll (°)</div>
+                        <div class="data-value" id="roll-{{ config.id }}">--</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Pitch (°)</div>
+                        <div class="data-value" id="pitch-{{ config.id }}">--</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Yaw (°)</div>
+                        <div class="data-value" id="yaw-{{ config.id }}">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-section">
+                <div class="section-title">
+                    🛰️ Statut GNSS
+                </div>
+                <div class="gnss-status">
+                    <span class="gnss-badge fix-type-no-fix" id="fix-type-{{ config.id }}">NO FIX</span>
+                    <span class="gnss-badge" id="satellites-{{ config.id }}">0 sats</span>
+                    <span class="gnss-badge" id="hdop-{{ config.id }}">HDOP: --</span>
+                </div>
+            </div>
+
+            <div class="error-message" id="error-{{ config.id }}" style="display: none;"></div>
+            
+            <div class="timestamp" id="timestamp-{{ config.id }}">
+                Dernière mise à jour : --
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        class INSMonitor {
+            constructor() {
+                this.updateInterval = 1000; // 1 seconde
+                this.isRunning = false;
+                this.init();
+            }
+
+            init() {
+                this.startMonitoring();
+                console.log('Surveillance INS initialisée');
+            }
+
+            startMonitoring() {
+                if (this.isRunning) return;
+                
+                this.isRunning = true;
+                this.fetchData();
+                this.intervalId = setInterval(() => this.fetchData(), this.updateInterval);
+                
+                this.updateSystemStatus('En cours d\'exécution', true);
+            }
+
+            stopMonitoring() {
+                this.isRunning = false;
+                if (this.intervalId) {
+                    clearInterval(this.intervalId);
+                }
+                this.updateSystemStatus('Arrêté', false);
+            }
+
+            async fetchData() {
+                try {
+                    const response = await fetch('/api/data');
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const data = await response.json();
+                    this.updateDisplay(data);
+                    
+                } catch (error) {
+                    console.error('Erreur lors de la récupération des données:', error);
+                    this.updateSystemStatus('Erreur de connexion', false);
+                }
+            }
+
+            updateDisplay(allData) {
+                Object.entries(allData).forEach(([insId, data]) => {
+                    this.updateINSCard(insId, data);
+                });
+
+                // Mise à jour du statut système
+                const onlineCount = Object.values(allData).filter(data => data.online).length;
+                const totalCount = Object.keys(allData).length;
+                this.updateSystemStatus(`${onlineCount}/${totalCount} INS en ligne`, onlineCount > 0);
+            }
+
+            updateINSCard(insId, data) {
+                // Statut en ligne
+                const statusIndicator = document.getElementById(`status-${insId}`);
+                if (statusIndicator) {
+                    statusIndicator.className = `status-indicator ${data.online ? 'status-online' : 'status-offline'}`;
+                }
+
+                // Position
+                this.updateElement(`lat-${insId}`, this.formatCoordinate(data.position?.latitude));
+                this.updateElement(`lon-${insId}`, this.formatCoordinate(data.position?.longitude));
+                this.updateElement(`alt-${insId}`, this.formatNumber(data.position?.altitude, 1));
+
+                // Attitude
+                this.updateElement(`roll-${insId}`, this.formatAngle(data.attitude?.roll));
+                this.updateElement(`pitch-${insId}`, this.formatAngle(data.attitude?.pitch));
+                this.updateElement(`yaw-${insId}`, this.formatAngle(data.attitude?.yaw));
+
+                // Statut GNSS
+                this.updateGNSSStatus(insId, data.gnss_status);
+
+                // Message d'erreur
+                const errorElement = document.getElementById(`error-${insId}`);
+                if (errorElement) {
+                    if (data.error_message && !data.online) {
+                        errorElement.textContent = `Erreur: ${data.error_message}`;
+                        errorElement.style.display = 'block';
+                    } else {
+                        errorElement.style.display = 'none';
+                    }
+                }
+
+                // Timestamp
+                this.updateElement(`timestamp-${insId}`, 
+                    `Dernière mise à jour : ${this.formatTimestamp(data.timestamp)}`);
+            }
+
+            updateGNSSStatus(insId, gnssStatus) {
+                // Type de fix
+                const fixTypeElement = document.getElementById(`fix-type-${insId}`);
+                if (fixTypeElement && gnssStatus) {
+                    const fixType = gnssStatus.fix_type || 'NO_FIX';
+                    fixTypeElement.textContent = fixType.replace('_', ' ');
+                    fixTypeElement.className = `gnss-badge fix-type-${fixType.toLowerCase().replace('_', '-')}`;
+                }
+
+                // Nombre de satellites
+                const satellitesElement = document.getElementById(`satellites-${insId}`);
+                if (satellitesElement && gnssStatus) {
+                    const numSats = gnssStatus.num_satellites || 0;
+                    satellitesElement.textContent = `${numSats} sats`;
+                    satellitesElement.className = 'gnss-badge';
+                    if (numSats >= 8) satellitesElement.style.background = '#e8f5e8';
+                    else if (numSats >= 4) satellitesElement.style.background = '#fff3e0';
+                    else satellitesElement.style.background = '#ffebee';
+                }
+
+                // HDOP
+                const hdopElement = document.getElementById(`hdop-${insId}`);
+                if (hdopElement && gnssStatus) {
+                    const hdop = gnssStatus.hdop || 0;
+                    hdopElement.textContent = `HDOP: ${hdop.toFixed(1)}`;
+                    hdopElement.className = 'gnss-badge';
+                }
+            }
+
+            updateElement(id, value) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = value || '--';
+                }
+            }
+
+            updateSystemStatus(text, isOnline) {
+                const statusElement = document.getElementById('statusText');
+                if (statusElement) {
+                    statusElement.textContent = text;
+                    statusElement.style.color = isOnline ? '#4CAF50' : '#f44336';
+                }
+            }
+
+            formatCoordinate(value) {
+                return value !== undefined ? value.toFixed(6) + '°' : '--';
+            }
+
+            formatAngle(value) {
+                return value !== undefined ? value.toFixed(1) + '°' : '--';
+            }
+
+            formatNumber(value, decimals = 2) {
+                return value !== undefined ? value.toFixed(decimals) : '--';
+            }
+
+            formatTimestamp(timestamp) {
+                if (!timestamp) return '--';
+                const date = new Date(timestamp);
+                return date.toLocaleTimeString('fr-FR');
+            }
+        }
+
+        // Initialisation de l'application
+        document.addEventListener('DOMContentLoaded', () => {
+            window.insMonitor = new INSMonitor();
+        });
+
+        // Gestion des erreurs globales
+        window.addEventListener('error', (e) => {
+            console.error('Erreur JavaScript:', e.error);
+        });
+
+        // Gestion de la visibilité de la page
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                console.log('Page cachée - surveillance suspendue');
+            } else {
+                console.log('Page visible - surveillance reprise');
+                if (window.insMonitor) {
+                    window.insMonitor.fetchData();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
