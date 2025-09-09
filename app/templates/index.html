@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surveillance INS SBG Systems</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1>🛰️ Surveillance INS SBG Systems</h1>
+        <div class="system-status" id="systemStatus">
+            <span id="statusText">Initialisation...</span>
+        </div>
+    </div>
+
+    <div class="ins-container" id="insContainer">
+        {% for config in ins_configs %}
+        <div class="ins-card" data-ins-id="{{ config.id }}">
+            <div class="ins-header">
+                <div>
+                    <div class="ins-name">{{ config.name }}</div>
+                    <div class="connection-type">
+                        {% if config.connection_type == 'ethernet' %}
+                            🌐 <a href="http://{{ config.ip_address }}">{{ config.ip_address }}</a>
+                        {% else %}
+                            🔌 {{ config.serial_port }}
+                        {% endif %}
+                    </div>
+                </div>
+                <span class="status-indicator status-offline" id="status-{{ config.id }}"></span>
+            </div>
+
+            {% for n in range(1, 3) %}
+            <div class="data-section">
+                <div class="section-title">
+                    📍 GNSS {{ n }}
+                    <div class="gnss-status-disabled" id="gnss{{ n }}-status-{{ config.id }}">disabled</div>
+                </div>
+                <div class="solution-type solution-unknown" id="gnss{{ n }}-pvt-status-{{ config.id }}">
+                    Solution inconnue
+                </div>
+                <div class="data-grid" id="gnss{{ n }}-positions-{{ config.id }}">
+                    <div class="data-item">
+                        <div class="data-label">Latitude</div>
+                        <div class="data-value" id="gnss{{ n }}-lat-{{ config.id }}">--</div>
+                        <div class="data-value-std" id="gnss{{ n }}-lat-std-{{ config.id }}">± --</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Longitude</div>
+                        <div class="data-value" id="gnss{{ n }}-lon-{{ config.id }}">--</div>
+                        <div class="data-value-std" id="gnss{{ n }}-lon-std-{{ config.id }}">± --</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Height (m)</div>
+                        <div class="data-value" id="gnss{{ n }}-alt-{{ config.id }}">--</div>
+                        <div class="data-value-std" id="gnss{{ n }}-alt-std-{{ config.id }}">± --</div>
+                    </div>
+                </div>
+                <div class="security-labels" id="gnss{{ n }}-security-{{ config.id }}">
+                    <span class="security-label" id="gnss{{ n }}-spoofing-{{ config.id }}">
+                        🛡️ Spoofing: Unknown
+                    </span>
+                    <span class="security-label" id="gnss{{ n }}-interference-{{ config.id }}">
+                        📡 Interference: Unknown
+                    </span>
+                    <span class="security-label" id="gnss{{ n }}-osnma-{{ config.id }}">
+                        🔒 OSNMA: Unknown
+                    </span>
+                    <span class="security-label" id="gnss{{ n }}-num-sv-{{ config.id }}">
+                        🛰 SV: 0 / 0
+                    </span>
+                </div>
+                <div class="constellation-grid" id="gnss{{ n }}-constellations-{{ config.id }}">
+                     <div class="constellation-item">
+                        <div class="constellation-name">GPS</div>
+                        <div class="constellation-freq">
+                            <span class="freq-unavailable" id="gnss{{ n }}-gpsL1Used-{{ config.id }}">L1</span>
+                            <span class="freq-unavailable" id="gnss{{ n }}-gpsL2Used-{{ config.id }}">L2</span>
+                            <span class="freq-unavailable" id="gnss{{ n }}-gpsL5Used-{{ config.id }}">L5</span>
+                        </div>
+                     </div>
+                     <div class="constellation-item">
+                        <div class="constellation-name">GLONASS</div>
+                        <div class="constellation-freq">
+                            <span class="freq-unavailable" id="gnss{{ n }}-gloL1Used-{{ config.id }}">L1</span>
+                            <span class="freq-unavailable" id="gnss{{ n }}-gloL2Used-{{ config.id }}">L2</span>
+                            <span class="freq-unavailable" id="gnss{{ n }}-gloL3Used-{{ config.id }}">L3</span>
+                        </div>
+                     </div>
+                     <div class="constellation-item">
+                        <div class="constellation-name">GALILEO</div>
+                        <div class="constellation-freq">
+                            <span class="freq-unavailable" id="gnss{{ n }}-galE1Used-{{ config.id }}">E1</span>
+                            <span class="freq-unavailable" id="gnss{{ n }}-galE5AltUsed-{{ config.id }}">E5Alt</span>
+                            <span class="freq-unavailable" id="gnss{{ n }}-galE5aUsed-{{ config.id }}">E5a</span>
+                            <span class="freq-unavailable" id="gnss{{ n }}-galE5bUsed-{{ config.id }}">E5b</span>
+                            <span class="freq-unavailable" id="gnss{{ n }}-galE6Used-{{ config.id }}">E6</span>
+                        </div>
+                     </div>
+                     <div class="constellation-item">
+                        <div class="constellation-name">BEIDOU</div>
+                        <div class="constellation-freq">
+                            <span class="freq-unavailable" id="gnss{{ n }}-bdsB1Used-{{ config.id }}">B1</span>
+                            <span class="freq-unavailable" id="gnss{{ n }}-bdsB2Used-{{ config.id }}">B2</span>
+                            <span class="freq-unavailable" id="gnss{{ n }}-bdsB3Used-{{ config.id }}">B3</span>
+                        </div>
+                     </div>
+                     <div class="constellation-item">
+                        <div class="constellation-name">QZSS</div>
+                        <div class="constellation-freq">
+                            <span class="freq-unavailable" id="gnss{{ n }}-qzssL1Used-{{ config.id }}">L1</span>
+                            <span class="freq-unavailable" id="gnss{{ n }}-qzssL2Used-{{ config.id }}">L2</span>
+                            <span class="freq-unavailable" id="gnss{{ n }}-qzssL5Used-{{ config.id }}">L5</span>
+                            <span class="freq-unavailable" id="gnss{{ n }}-qzssL6Used-{{ config.id }}">L6</span>
+                        </div>
+                     </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="data-section">
+                <div class="section-title">
+                    🎯 INS
+                </div>
+                <div class="solution-type solution-unknown" id="ekf-solution-type-{{ config.id }}">
+                    Solution inconnue
+                </div>
+                <div class="data-grid">
+                    <div class="data-item">
+                        <div class="data-label">Latitude EKF</div>
+                        <div class="data-value" id="ekf-lat-{{ config.id }}">--</div>
+                        <div class="data-value-std" id="ekf-lat-std-{{ config.id }}">± --</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Longitude EKF</div>
+                        <div class="data-value" id="ekf-lon-{{ config.id }}">--</div>
+                        <div class="data-value-std" id="ekf-lon-std-{{ config.id }}">± --</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Altitude EKF (m)</div>
+                        <div class="data-value" id="ekf-alt-{{ config.id }}">--</div>
+                        <div class="data-value-std" id="ekf-alt-std-{{ config.id }}">± --</div>
+                    </div>
+                </div>
+                <div class="ekf-info-grid">
+                    <div class="ekf-info-section">
+                        <div class="ekf-info-title">Quality</div>
+                        <div class="ekf-status-list">
+                            <div class="ekf-status-item">
+                                <span class="ekf-status-label">Roll/Pitch</span>
+                                <span class="ekf-status-icon" id="ekf-solution-rollPitchValid-{{ config.id }}">--</span>
+                            </div>
+                            <div class="ekf-status-item">
+                                <span class="ekf-status-label">Heading</span>
+                                <span class="ekf-status-icon" id="ekf-solution-headingValid-{{ config.id }}">--</span>
+                            </div>
+                            <div class="ekf-status-item">
+                                <span class="ekf-status-label">Velocity</span>
+                                <span class="ekf-status-icon" id="ekf-solution-velocityValid-{{ config.id }}">--</span>
+                            </div>
+                            <div class="ekf-status-item">
+                                <span class="ekf-status-label">Position</span>
+                                <span class="ekf-status-icon" id="ekf-solution-positionValid-{{ config.id }}">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ekf-info-section">
+                        <div class="ekf-info-title">Used for solution</div>
+                        <div class="ekf-status-list">
+                            <div class="ekf-status-item">
+                                <span class="ekf-status-label">Vertical Reference</span>
+                                <span class="ekf-status-icon" id="ekf-solution-verticalUsed-{{ config.id }}">--</span>
+                            </div>
+                            <div class="ekf-status-item">
+                                <span class="ekf-status-label">ZUPT</span>
+                                <span class="ekf-status-icon" id="ekf-solution-zuptUsed-{{ config.id }}">--</span>
+                            </div>
+                            {% for n in range(1, 3) %}
+                            <div class="ekf-status-item">
+                                <span class="ekf-status-label">GNSS {{ n }} Position</span>
+                                <span class="ekf-status-icon" id="ekf-solution-gnss{{ n }}PosUsed-{{ config.id }}">--</span>
+                            </div>
+                            <div class="ekf-status-item">
+                                <span class="ekf-status-label">GNSS {{ n }} Velocity</span>
+                                <span class="ekf-status-icon" id="ekf-solution-gnss{{ n }}VelUsed-{{ config.id }}">--</span>
+                            </div>
+                            <div class="ekf-status-item">
+                                <span class="ekf-status-label">GNSS {{ n }} True Heading</span>
+                                <span class="ekf-status-icon" id="ekf-solution-gnss{{ n }}HdtUsed-{{ config.id }}">--</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-message" id="error-{{ config.id }}" style="display: none;"></div>
+            
+            <div class="timestamp" id="timestamp-{{ config.id }}">
+                Dernière mise à jour : --
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
