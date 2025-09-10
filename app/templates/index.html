@@ -32,7 +32,7 @@
             </div>
 
             {% for n in range(1, 3) %}
-            <div class="data-section">
+            <div class="data-section" id="gnss{{ n }}-section-{{ config.id }}">
                 <div class="section-title">
                     📍 GNSS {{ n }}
                     <div class="gnss-status-disabled" id="gnss{{ n }}-status-{{ config.id }}">disabled</div>
@@ -40,7 +40,7 @@
                 <div class="solution-type solution-unknown" id="gnss{{ n }}-pvt-status-{{ config.id }}">
                     Solution inconnue
                 </div>
-                <div class="data-grid" id="gnss{{ n }}-positions-{{ config.id }}">
+                <div class="data-grid">
                     <div class="data-item">
                         <div class="data-label">Latitude</div>
                         <div class="data-value" id="gnss{{ n }}-lat-{{ config.id }}">--</div>
@@ -57,7 +57,7 @@
                         <div class="data-value-std" id="gnss{{ n }}-alt-std-{{ config.id }}">± --</div>
                     </div>
                 </div>
-                <div class="security-labels" id="gnss{{ n }}-security-{{ config.id }}">
+                <div class="security-labels">
                     <span class="security-label" id="gnss{{ n }}-spoofing-{{ config.id }}">
                         🛡️ Spoofing: Unknown
                     </span>
@@ -71,7 +71,7 @@
                         🛰 SV: 0 / 0
                     </span>
                 </div>
-                <div class="constellation-grid" id="gnss{{ n }}-constellations-{{ config.id }}">
+                <div class="constellation-grid">
                      <div class="constellation-item">
                         <div class="constellation-name">GPS</div>
                         <div class="constellation-freq">
@@ -178,15 +178,15 @@
                                 <span class="ekf-status-icon" id="ekf-solution-zuptUsed-{{ config.id }}">--</span>
                             </div>
                             {% for n in range(1, 3) %}
-                            <div class="ekf-status-item">
+                            <div class="ekf-status-item" id="ekf-solution-item-gnss{{ n }}PosUsed-{{ config.id }}">
                                 <span class="ekf-status-label">GNSS {{ n }} Position</span>
                                 <span class="ekf-status-icon" id="ekf-solution-gnss{{ n }}PosUsed-{{ config.id }}">--</span>
                             </div>
-                            <div class="ekf-status-item">
+                            <div class="ekf-status-item" id="ekf-solution-item-gnss{{ n }}VelUsed-{{ config.id }}">
                                 <span class="ekf-status-label">GNSS {{ n }} Velocity</span>
                                 <span class="ekf-status-icon" id="ekf-solution-gnss{{ n }}VelUsed-{{ config.id }}">--</span>
                             </div>
-                            <div class="ekf-status-item">
+                            <div class="ekf-status-item" id="ekf-solution-item-gnss{{ n }}HdtUsed-{{ config.id }}">
                                 <span class="ekf-status-label">GNSS {{ n }} True Heading</span>
                                 <span class="ekf-status-icon" id="ekf-solution-gnss{{ n }}HdtUsed-{{ config.id }}">--</span>
                             </div>

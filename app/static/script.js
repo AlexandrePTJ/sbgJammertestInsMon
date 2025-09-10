@@ -86,10 +86,15 @@ class INSMonitor {
                 this.updateEkfMeasurements(insId, data.ins_measurement.ekf, data.status.ins.type);
 
                 // Solution INS
-                this.updateInsSolution(insId, data.status.ins);
+                this.updateInsSolution(insId, data.status);
             }
 
             updateGNSSMeasurements(insId, gnssId, gnssMeasurements) {
+
+                const gnssSectionElement = document.getElementById(`gnss${gnssId}-section-${insId}`);
+                if (gnssSectionElement) {
+                    gnssSectionElement.hidden = gnssMeasurements.status === 'disabled';
+                }
 
                 const statusElement = document.getElementById(`gnss${gnssId}-status-${insId}`);
                 if (statusElement) {
@@ -224,13 +229,27 @@ class INSMonitor {
                 this.updateElement(`ekf-alt-std-${insId}`, `± ${this.formatNumber(ekf?.posStd[2], 3, 'm')}`);
             }
 
-            updateInsSolution(insId, solution) {
-                if (solution && Object.keys(solution).length > 0) {
-                    Object.entries(solution).forEach(([constName, constUsed]) => {
+            updateInsSolution(insId, status) {
+                if (status.ins && Object.keys(status.ins).length > 0) {
+                    Object.entries(status.ins).forEach(([constName, constUsed]) => {
                         const element = document.getElementById(`ekf-solution-${constName}-${insId}`);
                         if (element) {
                             element.textContent = constUsed ? '✓' : '✗';
                             element.className = `ekf-status-icon ${constUsed ? 'ekf-status-ok' : 'ekf-status-ko'}`;
+                        }
+
+                        if (constName.includes('gnss1')) {
+                            const itemElement = document.getElementById(`ekf-solution-item-${constName}-${insId}`);
+                            if (itemElement) {
+                                itemElement.style.display = status.aiding.gnss1.enabled ? 'flex' : 'none';
+                            }
+                        }
+
+                        if (constName.includes('gnss2')) {
+                            const itemElement = document.getElementById(`ekf-solution-item-${constName}-${insId}`);
+                            if (itemElement) {
+                                itemElement.style.display = status.aiding.gnss2.enabled ? 'flex' : 'none';
+                            }
                         }
                     });
                 }
