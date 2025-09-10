@@ -1,375 +1,383 @@
 {
-      "gnss1_measurement": {
-        "hdt": {
-          "baseline": 2.0095818042755127,
-          "heading": 50.62389373779297,
-          "headingStd": 0.12252777069807053,
-          "numSvTracked": 36,
-          "numSvUsed": 34,
-          "pitch": 2.042630672454834,
-          "pitchStd": 0.20683608949184418,
-          "status": "valid",
-          "timeOfWeek": 207681800
-        },
-        "pvt": {
-          "altitudeMsl": 62.82008651508919,
-          "baseId": 121,
-          "course": 0,
-          "courseStd": 180,
-          "diffAge": 1.7999999523162842,
-          "height": 110.08600524677864,
-          "heightStd": 0.6459162831306458,
-          "interference": "clean",
-          "latitude": 48.9099503089383,
-          "latitudeStd": 0.3637235462665558,
-          "longitude": 2.1673743783486064,
-          "longitudeStd": 0.2860109806060791,
-          "numSvTracked": 43,
-          "numSvUsed": 35,
-          "osnma": "disabled",
-          "signals": {
-            "bdsB1Used": true,
-            "bdsB2Used": true,
-            "bdsB3Used": true,
-            "galE1Used": true,
-            "galE5AltUsed": false,
-            "galE5aUsed": true,
-            "galE5bUsed": true,
-            "galE6Used": false,
-            "gloL1Used": true,
-            "gloL2Used": true,
-            "gloL3Used": false,
-            "gpsL1Used": true,
-            "gpsL2Used": false,
-            "gpsL5Used": false,
-            "qzssL1Used": false,
-            "qzssL2Used": false,
-            "qzssL5Used": false,
-            "qzssL6Used": false
-          },
-          "spoofing": "clean",
-          "status": "sbas",
-          "timeOfWeek": 207681800,
-          "velDown": -0.0012047382770106196,
-          "velDownStd": 0.00782241392880678,
-          "velEast": -0.0015210750279948115,
-          "velEastStd": 0.00515812123194337,
-          "velNorth": 0.001365883625112474,
-          "velNorthStd": 0.00553935207426548
-        },
-        "status": "enabled"
+  "gnss1_measurement": {
+    "hdt": {
+      "baseline": 2.0095818042755127,
+      "heading": 50.62389373779297,
+      "headingStd": 0.12252777069807053,
+      "numSvTracked": 36,
+      "numSvUsed": 34,
+      "pitch": 2.042630672454834,
+      "pitchStd": 0.20683608949184418,
+      "status": "valid",
+      "timeOfWeek": 207681800
+    },
+    "pvt": {
+      "altitudeMsl": 62.82008651508919,
+      "baseId": 121,
+      "course": 0,
+      "courseStd": 180,
+      "diffAge": 1.7999999523162842,
+      "height": 110.08600524677864,
+      "heightStd": 0.6459162831306458,
+      "interference": "clean",
+      "latitude": 48.9099503089383,
+      "latitudeStd": 0.3637235462665558,
+      "longitude": 2.1673743783486064,
+      "longitudeStd": 0.2860109806060791,
+      "numSvTracked": 43,
+      "numSvUsed": 35,
+      "osnma": "disabled",
+      "signals": {
+        "bdsB1Used": true,
+        "bdsB2Used": true,
+        "bdsB3Used": true,
+        "galE1Used": true,
+        "galE5AltUsed": false,
+        "galE5aUsed": true,
+        "galE5bUsed": true,
+        "galE6Used": false,
+        "gloL1Used": true,
+        "gloL2Used": true,
+        "gloL3Used": false,
+        "gpsL1Used": true,
+        "gpsL2Used": false,
+        "gpsL5Used": false,
+        "qzssL1Used": false,
+        "qzssL2Used": false,
+        "qzssL5Used": false,
+        "qzssL6Used": false
       },
-      "gnss2_measurement": {
-        "status": "disabled"
+      "spoofing": "clean",
+      "status": "sbas",
+      "timeOfWeek": 207681800,
+      "velDown": -0.0012047382770106196,
+      "velDownStd": 0.00782241392880678,
+      "velEast": -0.0015210750279948115,
+      "velEastStd": 0.00515812123194337,
+      "velNorth": 0.001365883625112474,
+      "velNorthStd": 0.00553935207426548
+    },
+    "status": "enabled"
+  },
+  "gnss2_measurement": {
+    "status": "disabled"
+  },
+  "ins_measurement": {
+    "dateTime": "2025-09-09T09:41:03.820Z",
+    "ekf": {
+      "altitude": 65.49038020344295,
+      "euler": [
+        -0.002177467802539468,
+        0.021972235292196274,
+        0.8839920163154602
+      ],
+      "eulerStd": [
+        0.0010353579418733716,
+        0.0010348032228648663,
+        0.001634341897442937
+      ],
+      "groundSpeed": 0.022801127284765244,
+      "height": 110.07745829792538,
+      "latitude": 48.90994946983661,
+      "longitude": 2.1673749012211188,
+      "posStd": [
+        0.296377420425415,
+        0.28245216608047485,
+        0.2036314159631729
+      ],
+      "trackCourse": 2.6774041652679443,
+      "velBody": [
+        -0.00501365540549159,
+        0.02224056050181389,
+        -0.000935732328798622
+      ],
+      "velBodyStd": [
+        0.05803856998682022,
+        -0.0066466424614191055,
+        0.011950241401791573
+      ],
+      "velNed": [
+        -0.02038842998445034,
+        0.010208006016910076,
+        -0.0008737682946957648
+      ],
+      "velNedStd": [
+        0.04207782447338104,
+        0.04087436571717262,
+        0.010686662979424
+      ]
+    },
+    "imu": {
+      "accel": [
+        0.21582841873168945,
+        0.023961471393704414,
+        -9.809181213378906
+      ],
+      "gyro": [
+        0.0008836318738758564,
+        -0.00105564808472991,
+        -0.0008639440638944507
+      ],
+      "temp": 41.81955337524414
+    },
+    "shipMotion": {
+      "mainHeavePeriod": 0,
+      "point1": {
+        "acceleration": [
+          0,
+          0,
+          0
+        ],
+        "heaveStdDev": 0,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ]
       },
-      "ins_measurement": {
-        "dateTime": "2025-09-09T09:41:03.820Z",
-        "ekf": {
-          "altitude": 65.49038020344295,
-          "euler": [
-            -0.002177467802539468,
-            0.021972235292196274,
-            0.8839920163154602
-          ],
-          "eulerStd": [
-            0.0010353579418733716,
-            0.0010348032228648663,
-            0.001634341897442937
-          ],
-          "groundSpeed": 0.022801127284765244,
-          "height": 110.07745829792538,
-          "latitude": 48.90994946983661,
-          "longitude": 2.1673749012211188,
-          "posStd": [
-            0.296377420425415,
-            0.28245216608047485,
-            0.2036314159631729
-          ],
-          "trackCourse": 2.6774041652679443,
-          "velBody": [
-            -0.00501365540549159,
-            0.02224056050181389,
-            -0.000935732328798622
-          ],
-          "velBodyStd": [
-            0.05803856998682022,
-            -0.0066466424614191055,
-            0.011950241401791573
-          ],
-          "velNed": [
-            -0.02038842998445034,
-            0.010208006016910076,
-            -0.0008737682946957648
-          ],
-          "velNedStd": [
-            0.04207782447338104,
-            0.04087436571717262,
-            0.010686662979424
-          ]
-        },
-        "imu": {
-          "accel": [
-            0.21582841873168945,
-            0.023961471393704414,
-            -9.809181213378906
-          ],
-          "gyro": [
-            0.0008836318738758564,
-            -0.00105564808472991,
-            -0.0008639440638944507
-          ],
-          "temp": 41.81955337524414
-        },
-        "shipMotion": {
-          "mainHeavePeriod": 0,
-          "point1": {
-            "acceleration": [
-              0,
-              0,
-              0
-            ],
-            "heaveStdDev": 0,
-            "position": [
-              0,
-              0,
-              0
-            ],
-            "velocity": [
-              0,
-              0,
-              0
-            ]
-          },
-          "point2": {
-            "acceleration": [
-              0,
-              0,
-              0
-            ],
-            "heaveStdDev": 0,
-            "position": [
-              0,
-              0,
-              0
-            ],
-            "velocity": [
-              0,
-              0,
-              0
-            ]
-          },
-          "point3": {
-            "acceleration": [
-              0,
-              0,
-              0
-            ],
-            "heaveStdDev": 0,
-            "position": [
-              0,
-              0,
-              0
-            ],
-            "velocity": [
-              0,
-              0,
-              0
-            ]
-          },
-          "pointCog": {
-            "acceleration": [
-              0,
-              0,
-              0
-            ],
-            "heaveStdDev": 0,
-            "position": [
-              0,
-              0,
-              0
-            ],
-            "velocity": [
-              0,
-              0,
-              0
-            ]
-          },
-          "pointImu": {
-            "acceleration": [
-              0,
-              0,
-              0
-            ],
-            "heaveStdDev": 0,
-            "position": [
-              0,
-              0,
-              0
-            ],
-            "velocity": [
-              0,
-              0,
-              0
-            ]
-          }
-        }
+      "point2": {
+        "acceleration": [
+          0,
+          0,
+          0
+        ],
+        "heaveStdDev": 0,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ]
       },
-      "online": true,
-      "status": {
-        "aiding": {
-          "airData": {
-            "enabled": false,
-            "hasAltitude": false,
-            "hasVelocity": false
-          },
-          "dvl": {
-            "enabled": false,
-            "hasBottomVel": false,
-            "hasWaterVel": false
-          },
-          "gnss1": {
-            "enabled": true,
-            "hasHeading": true,
-            "hasPosition": true,
-            "hasUtc": true,
-            "hasVelocity": true,
-            "providesBestHdt": true,
-            "providesBestPvt": true
-          },
-          "gnss2": {
-            "enabled": false,
-            "hasHeading": false,
-            "hasPosition": false,
-            "hasUtc": false,
-            "hasVelocity": false,
-            "providesBestHdt": false,
-            "providesBestPvt": false
-          },
-          "magnetometer": {
-            "enabled": false,
-            "hasMagData": false
-          },
-          "odometer": {
-            "enabled": true,
-            "hasVelocity": true
-          },
-          "rtcm": {
-            "enabled": false,
-            "hasData": false
-          }
-        },
-        "imu": {
-          "accelInRange": true,
-          "accelXValid": true,
-          "accelYValid": true,
-          "accelZValid": true,
-          "comOk": true,
-          "gyroInRange": true,
-          "gyroXValid": true,
-          "gyroYValid": true,
-          "gyroZValid": true,
-          "statusValid": true
-        },
-        "ins": {
-          "accurateMode": false,
-          "airAltUsed": false,
-          "airVelUsed": false,
-          "alignment": false,
-          "dvlBtUsed": false,
-          "dvlWtUsed": false,
-          "gnss1HdtUsed": true,
-          "gnss1PosUsed": true,
-          "gnss1RawUsed": false,
-          "gnss1VelUsed": true,
-          "gnss2HdtUsed": false,
-          "gnss2PosUsed": false,
-          "gnss2VelUsed": false,
-          "headingValid": true,
-          "magUsed": false,
-          "mode": "ins",
-          "odometerUsed": false,
-          "positionValid": true,
-          "rollPitchValid": true,
-          "type": "sbas",
-          "usblUsed": false,
-          "velConstUsed": false,
-          "velocityValid": true,
-          "verticalUsed": false,
-          "zaruUsed": false,
-          "zuptUsed": false
-        },
-        "ports": {
-          "can": {
-            "status": "closed"
-          },
-          "comA": {
-            "input": "valid",
-            "inputDataRate": 0,
-            "output": "overflow",
-            "outputDataRate": 22439,
-            "status": "open"
-          },
-          "comB": {
-            "status": "closed"
-          },
-          "comC": {
-            "status": "closed"
-          },
-          "comD": {
-            "status": "closed"
-          },
-          "comE": {
-            "status": "closed"
-          },
-          "eth0": {
-            "input": "valid",
-            "inputDataRate": 0,
-            "output": "valid",
-            "outputDataRate": 22928,
-            "status": "open"
-          },
-          "eth1": {
-            "input": "valid",
-            "inputDataRate": 0,
-            "output": "valid",
-            "outputDataRate": 0,
-            "status": "open"
-          },
-          "eth2": {
-            "status": "closed"
-          },
-          "eth3": {
-            "status": "closed"
-          },
-          "eth4": {
-            "status": "closed"
-          }
-        },
-        "shipMotion": {
-          "delayedValid": false,
-          "rtFreqValid": false,
-          "rtInsAided": false,
-          "rtSwellMode": false,
-          "rtValid": false
-        },
-        "system": {
-          "cpuOk": true,
-          "cpuUsage": 39,
-          "gnssPwrValid": true,
-          "heapSize": 6676480,
-          "imuPwrValid": true,
-          "mainPwrValid": true,
-          "powerCycles": 888,
-          "settingsValid": true,
-          "tempOk": true,
-          "totalRunTime": 809753,
-          "upTime": 3846
-        },
-        "utc": {
-          "clockStableInput": true,
-          "clockStatus": "aligned",
-          "utcAccurate": true,
-          "utcStatus": "valid"
-        }
+      "point3": {
+        "acceleration": [
+          0,
+          0,
+          0
+        ],
+        "heaveStdDev": 0,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ]
+      },
+      "pointCog": {
+        "acceleration": [
+          0,
+          0,
+          0
+        ],
+        "heaveStdDev": 0,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ]
+      },
+      "pointImu": {
+        "acceleration": [
+          0,
+          0,
+          0
+        ],
+        "heaveStdDev": 0,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ]
       }
+    }
+  },
+  "online": true,
+  "status": {
+    "aiding": {
+      "airData": {
+        "enabled": false,
+        "hasAltitude": false,
+        "hasVelocity": false
+      },
+      "dvl": {
+        "enabled": false,
+        "hasBottomVel": false,
+        "hasWaterVel": false
+      },
+      "gnss1": {
+        "enabled": true,
+        "hasHeading": true,
+        "hasPosition": true,
+        "hasUtc": true,
+        "hasVelocity": true,
+        "providesBestHdt": true,
+        "providesBestPvt": true
+      },
+      "gnss2": {
+        "enabled": false,
+        "hasHeading": false,
+        "hasPosition": false,
+        "hasUtc": false,
+        "hasVelocity": false,
+        "providesBestHdt": false,
+        "providesBestPvt": false
+      },
+      "magnetometer": {
+        "enabled": false,
+        "hasMagData": false
+      },
+      "odometer": {
+        "enabled": true,
+        "hasVelocity": true
+      },
+      "rtcm": {
+        "enabled": false,
+        "hasData": false
+      }
+    },
+    "imu": {
+      "accelInRange": true,
+      "accelXValid": true,
+      "accelYValid": true,
+      "accelZValid": true,
+      "comOk": true,
+      "gyroInRange": true,
+      "gyroXValid": true,
+      "gyroYValid": true,
+      "gyroZValid": true,
+      "statusValid": true
+    },
+    "ins": {
+      "accurateMode": false,
+      "airAltUsed": false,
+      "airVelUsed": false,
+      "alignment": false,
+      "dvlBtUsed": false,
+      "dvlWtUsed": false,
+      "gnss1HdtUsed": true,
+      "gnss1PosUsed": true,
+      "gnss1RawUsed": false,
+      "gnss1VelUsed": true,
+      "gnss2HdtUsed": false,
+      "gnss2PosUsed": false,
+      "gnss2VelUsed": false,
+      "headingValid": true,
+      "magUsed": false,
+      "mode": "ins",
+      "odometerUsed": false,
+      "positionValid": true,
+      "rollPitchValid": true,
+      "type": "sbas",
+      "usblUsed": false,
+      "velConstUsed": false,
+      "velocityValid": true,
+      "verticalUsed": false,
+      "zaruUsed": false,
+      "zuptUsed": false
+    },
+    "ports": {
+      "can": {
+        "status": "closed"
+      },
+      "comA": {
+        "input": "valid",
+        "inputDataRate": 0,
+        "output": "overflow",
+        "outputDataRate": 22439,
+        "status": "open"
+      },
+      "comB": {
+        "status": "closed"
+      },
+      "comC": {
+        "status": "closed"
+      },
+      "comD": {
+        "status": "closed"
+      },
+      "comE": {
+        "status": "closed"
+      },
+      "eth0": {
+        "input": "valid",
+        "inputDataRate": 0,
+        "output": "valid",
+        "outputDataRate": 22928,
+        "status": "open"
+      },
+      "eth1": {
+        "input": "valid",
+        "inputDataRate": 0,
+        "output": "valid",
+        "outputDataRate": 0,
+        "status": "open"
+      },
+      "eth2": {
+        "status": "closed"
+      },
+      "eth3": {
+        "status": "closed"
+      },
+      "eth4": {
+        "status": "closed"
+      }
+    },
+    "shipMotion": {
+      "delayedValid": false,
+      "rtFreqValid": false,
+      "rtInsAided": false,
+      "rtSwellMode": false,
+      "rtValid": false
+    },
+    "system": {
+      "cpuOk": true,
+      "cpuUsage": 39,
+      "gnssPwrValid": true,
+      "heapSize": 6676480,
+      "imuPwrValid": true,
+      "mainPwrValid": true,
+      "powerCycles": 888,
+      "settingsValid": true,
+      "tempOk": true,
+      "totalRunTime": 809753,
+      "upTime": 3846
+    },
+    "utc": {
+      "clockStableInput": true,
+      "clockStatus": "aligned",
+      "utcAccurate": true,
+      "utcStatus": "valid"
+    }
+  },
+  "datalogger": {
+    "status": "ready",
+    "mode": "normal",
+    "sessionName": "",
+    "writeSpeed": 10.0,
+    "usedSpace": 1,
+    "totalSpace": 10
+  }
 }

@@ -78,6 +78,12 @@ class INSMonitor {
 
                 if (!data.online) { return; }
 
+                // UTC Clock
+                this.updateUTCStatus(insId, data.status.utc, data.ins_measurement.dateTime);
+
+                // DataLogger
+                this.updateDataLogger(insId, data.datalogger);
+
                 // Position GNSS avec std dev
                 this.updateGNSSMeasurements(insId, 1, data.gnss1_measurement);
                 this.updateGNSSMeasurements(insId, 2, data.gnss2_measurement);
@@ -87,6 +93,37 @@ class INSMonitor {
 
                 // Solution INS
                 this.updateInsSolution(insId, data.status);
+            }
+
+            updateUTCStatus(insId, utc, insDateTime) {
+                const validElement = document.getElementById(`utc-valid-${insId}`);
+                if (validElement) {
+                    validElement.textContent = utc.utcStatus;
+                    validElement.className = `status-info-value status-info-utc-${utc.utcStatus}`;
+                }
+                const clockElement = document.getElementById(`utc-clock-${insId}`);
+                if (clockElement) {
+                    clockElement.textContent = utc.clockStatus;
+                    clockElement.className = `status-info-value status-info-clock-${utc.clockStatus}`;
+                }
+
+                this.updateElement(`utc-date-${insId}`, insDateTime);
+            }
+
+            updateDataLogger(insId, dataLogger) {
+                const statusElement = document.getElementById(`datalogger-status-${insId}`);
+                if (statusElement) {
+                    statusElement.textContent = dataLogger.status;
+                    statusElement.className = `status-info-value status-info-dlstatus-${dataLogger.status}`;
+                }
+                const modeElement = document.getElementById(`datalogger-mode-${insId}`);
+                if (modeElement) {
+                    modeElement.textContent = dataLogger.mode;
+                    modeElement.className = `status-info-value status-info-dlmode-${dataLogger.mode}`;
+                }
+
+                const spaceRatio = 100. * dataLogger.usedSpace / dataLogger.totalSpace;
+                this.updateElement(`datalogger-space-${insId}`, `${dataLogger.usedSpace} / ${dataLogger.totalSpace} (${spaceRatio} %)`);
             }
 
             updateGNSSMeasurements(insId, gnssId, gnssMeasurements) {

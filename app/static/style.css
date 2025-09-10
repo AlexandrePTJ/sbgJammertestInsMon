@@ -164,12 +164,6 @@ body {
     color: #333;
 }
 
-.data-value-small {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #333;
-}
-
 .data-value-std {
     font-size: 0.85rem;
     color: #666;
@@ -372,3 +366,96 @@ body {
 .ekf-status-ko {
     color: #c62828;
 }
+
+.status-info-panel {
+    background: rgba(248, 249, 250, 0.8);
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    min-width: 200px;
+    backdrop-filter: blur(5px);
+    margin-right: auto;
+    margin-left: 15px;
+    align-items: center;
+}
+
+.status-info-block {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-info-icon {
+    font-size: 1rem;
+    width: 20px;
+    text-align: center;
+    opacity: 0.7;
+}
+
+.status-info-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+}
+
+.status-info-title {
+    font-size: 0.7rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    font-weight: 500;
+    margin-bottom: 1px;
+}
+
+.status-info-item {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.status-info-label {
+    font-size: 0.65rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.status-info-value { font-size: 0.7rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.status-info-utc-invalid { color: #c62828; }
+.status-info-utc-valid { color: #2e7d32; }
+.status-info-utc-noLeapSec { color: #ef6c00; }
+
+.status-info-clock-invalid { color: #c62828; }
+.status-info-clock-aligned { color: #2e7d32; }
+.status-info-clock-freeRunning { color: #ef6c00; }
+.status-info-clock-steering { color: #ef6c00; }
+
+.status-info-dlstatus-uninitialized { color: #666; }
+.status-info-dlstatus-initialized { color: #ef6c00; }
+.status-info-dlstatus-ready { color: #1565c0; }
+.status-info-dlstatus-error { color: #c62828; }
+.status-info-dlstatus-full { color: #c62828; }
+.status-info-dlstatus-pending { color: #ef6c00; }
+.status-info-dlstatus-logging { color: #2e7d32; }
+.status-info-dlstatus-overflow { color: #c62828; }
+.status-info-dlstatus-formatting { color: #ef6c00; }
+.status-info-dlstatus-exiting { color: #1565c0; }
+
+.status-info-dlmode-undefined { color: #666; }
+.status-info-dlmode-normal { color: #2e7d32; }
+.status-info-dlmode-blackbox { color: #222; }
+
+/*
+.solution-best { background: #e8f5e8; color: #2e7d32; }
+.solution-good { background: #e3f2fd; color: #1565c0; }
+.solution-degraded { background: #fff3e0; color: #ef6c00; }
+.solution-error { background: #ffebee; color: #c62828; }
+.solution-unknown { background: #f5f5f5; color: #666; }
+*/
