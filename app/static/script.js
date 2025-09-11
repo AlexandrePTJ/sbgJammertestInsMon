@@ -89,7 +89,7 @@ class INSMonitor {
         this.updateGNSSMeasurements(insId, 2, data.gnss2_measurement);
 
         // Position EKF avec std dev
-        this.updateEkfMeasurements(insId, data.ins_measurement.ekf, data.status.ins.type);
+        this.updateEkfMeasurements(insId, data.ins_measurement.ekf, data.status.ins.type, data.status.ins.alignment);
 
         // Solution INS
         this.updateInsSolution(insId, data.status);
@@ -217,7 +217,7 @@ class INSMonitor {
         }
     }
 
-    updateEkfMeasurements(insId, ekf, insSolutionType) {
+    updateEkfMeasurements(insId, ekf, insSolutionType, insSolutionAligned) {
 
         const ekfSolutionElement = document.getElementById(`ekf-ins-solution-type-${insId}`);
         if (ekfSolutionElement) {
@@ -255,6 +255,12 @@ class INSMonitor {
                     break;
             }
             ekfSolutionElement.textContent = insSolutionType;
+        }
+
+        const ekfSolutionAlignedElement = document.getElementById(`ekf-ins-solution-aligned-${insId}`);
+        if (ekfSolutionAlignedElement) {
+            ekfSolutionAlignedElement.textContent = insSolutionAligned ? "Aligned" : "Not Aligned";
+            ekfSolutionAlignedElement.className = `solution-type ${insSolutionAligned ? 'solution-best' : 'solution-degraded'}`;
         }
 
         this.updateElement(`ekf-lat-${insId}`, this.formatCoordinate(ekf?.latitude));
