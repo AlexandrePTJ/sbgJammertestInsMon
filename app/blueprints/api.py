@@ -14,3 +14,8 @@ def get_all_data():
 def get_data(ins_id):
     memory_store = get_or_create_cache()
     return jsonify(memory_store.get_latest(ins_id))
+
+@api_bp.route('/positions')
+def get_positions():
+    memory_store = get_or_create_cache()
+    return jsonify(memory_store.get_positions(last_minutes=5))

@@ -6,6 +6,7 @@ from typing import Optional
 class INSConfig:
     id: str
     name: str
+    color: str
     connection_type: str  # 'ethernet' or 'serial'
     ip_address: Optional[str] = None
     port: int = 80

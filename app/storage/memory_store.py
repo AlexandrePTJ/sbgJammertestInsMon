@@ -118,6 +118,9 @@ class TimeSeriesMemoryStore:
         start_time = end_time - timedelta(minutes=minutes)
         return self.get_metrics_range(metric_type, start_time, end_time)
 
+    def get_all_recent(self, minutes: int = 30) -> Dict[str, List]:
+        return {k: self.get_recent_metrics(k, minutes) for k in self._data.keys()}
+
     def get_all_latest(self) -> Dict[str, Dict]:
         with self._lock:
             return self._latest.copy()
@@ -152,65 +155,15 @@ class HybridMemoryStore:
 
     def get_all_latest(self) -> Dict[str, Dict]:
         return self.timeseries.get_all_latest()
-
-    # def get_metrics_range(self, metric_type: str, start_time: datetime, end_time: datetime) -> List[Dict]:
-    #     return self.timeseries.get_metrics_range(metric_type, start_time, end_time)
-    #
-    # def get_recent_metrics(self, metric_type: str, minutes: int = 30) -> List[Dict]:
-    #     return self.timeseries.get_recent_metrics(metric_type, minutes)
-    #
-    # def get_dashboard_summary(self) -> Dict:
-    #     summary = self.cache.get('dashboard:summary')
-    #     if summary:
-    #         return summary
-    #
-    #     # Générer le résumé
-    #     all_latest = self.timeseries.get_all_latest()
-    #     summary = {
-    #         'system': all_latest.get('system', {}),
-    #         'network': all_latest.get('network', {}),
-    #         'database': all_latest.get('database', {}),
-    #         'health': all_latest.get('health', {}),
-    #         'timestamp': datetime.utcnow().isoformat(),
-    #         'metrics_count': len(all_latest)
-    #     }
-    #
-    #     # Cache pour 30 secondes
-    #     self.cache.set('dashboard:summary', summary, ttl=30)
-    #     return summary
-    #
-    # def get_aggregated_metrics(self, metric_type: str, period_minutes: int = 60) -> Dict:
-    #     """Agrégation des métriques (moyenne, min, max)"""
-    #     cache_key = f"aggregated:{metric_type}:{period_minutes}"
-    #     cached = self.cache.get(cache_key)
-    #     if cached:
-    #         return cached
-    #
-    #     # Calculer les agrégations
-    #     recent_data = self.get_recent_metrics(metric_type, period_minutes)
-    #     if not recent_data:
-    #         return {}
-    #
-    #     # Exemple d'agrégation pour métriques système
-    #     cpu_values = [entry['data'].get('cpu_percent', 0) for entry in recent_data if 'cpu_percent' in entry['data']]
-    #     memory_values = [entry['data'].get('memory_percent', 0) for entry in recent_data if
-    #                      'memory_percent' in entry['data']]
-    #
-    #     aggregated = {
-    #         'cpu': {
-    #             'avg': sum(cpu_values) / len(cpu_values) if cpu_values else 0,
-    #             'min': min(cpu_values) if cpu_values else 0,
-    #             'max': max(cpu_values) if cpu_values else 0,
-    #         },
-    #         'memory': {
-    #             'avg': sum(memory_values) / len(memory_values) if memory_values else 0,
-    #             'min': min(memory_values) if memory_values else 0,
-    #             'max': max(memory_values) if memory_values else 0,
-    #         },
-    #         'period_minutes': period_minutes,
-    #         'samples_count': len(recent_data)
-    #     }
-    #
-    #     # Cache pour 2 minutes
-    #     self.cache.set(cache_key, aggregated, ttl=120)
-    #     return aggregated
+    
+    def get_positions(self, last_minutes: int = 5) -> Dict[str, List]:
+        all_latest = self.timeseries.get_all_recent(minutes=last_minutes)
+        positions = {}
+        for k, d in all_latest.items():
+            positions[k] = []
+            for v in d:
+                if v.get('data').get('online'):
+                    ekf = v.get('data').get('ins_measurement').get('ekf')
+                    # positions[k].append({'latitude': ekf.get('latitude'), 'longitude': ekf.get('longitude')})
+                    positions[k].append([ekf.get('latitude'), ekf.get('longitude')])
+        return positions

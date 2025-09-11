@@ -1,8 +1,12 @@
+import itertools
 import json
 
 from app.models.config import INSConfig
 from typing import List
 
+colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6',
+          '#1abc9c', '#e67e22', '#34495e', '#e91e63', '#00bcd4']
+color_cycle = itertools.cycle(colors)
 
 def get_ins_configs(json_path: str) -> List[INSConfig]:
     ins_configs = []
@@ -13,6 +17,7 @@ def get_ins_configs(json_path: str) -> List[INSConfig]:
                 ins_configs.append(INSConfig(
                     id=config_json_data["id"],
                     name=config_json_data["name"],
+                    color=config_json_data.get("color", next(color_cycle)),
                     connection_type=config_json_data["connection_type"],
                     ip_address=config_json_data["ip_address"]
                 ))
@@ -20,6 +25,7 @@ def get_ins_configs(json_path: str) -> List[INSConfig]:
                 ins_configs.append(INSConfig(
                     id=config_json_data["id"],
                     name=config_json_data["name"],
+                    color=config_json_data.get("color", next(color_cycle)),
                     connection_type=config_json_data["connection_type"]
                 ))
     return ins_configs
