@@ -16,7 +16,7 @@ class InsRestApiClient:
             ins_data['ins_measurement'] = self._get_json("data")
             ins_data['gnss1_measurement'] = self._get_json("gnss1")
             ins_data['gnss2_measurement'] = self._get_json("gnss2")
-            ins_data['datalogger'] = self._get_json("datalogger")
+            ins_data['datalogger'] = self._get_json("dataLogger")
             ins_data['online'] = True
         except requests.RequestException as exc:
             ins_data['online'] = False
