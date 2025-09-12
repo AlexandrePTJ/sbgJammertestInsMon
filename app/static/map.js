@@ -103,12 +103,54 @@ class TrajectoryMonitor {
         const insIds = Object.keys(positions);
         insIds.forEach((insId) => {
             if (insId in this.trajectories && positions[insId].length > 0) {
-                this.trajectories[insId].setLatLngs(positions[insId]);
-                this.currentMarkers[insId].setLatLng(positions[insId][0]);
-                this.currentMarkers[insId].setOpacity(1);
-                this.currentMarkers[insId].addTo(this.map);
+                if (this.insConfigs[insId].visible) {
+                    this.trajectories[insId].setLatLngs(positions[insId]);
+                    this.currentMarkers[insId].setLatLng(positions[insId][0]);
+                    this.currentMarkers[insId].setOpacity(1);
+                    this.currentMarkers[insId].addTo(this.map);
+                }
             }
         });
+    }
+
+    toggleInsVisibility(insId) {
+        if (this.insConfigs[insId]){
+            if (this.insConfigs[insId].visible) {
+                this.hideIns(insId);
+            } else {
+                this.showIns(insId);
+            }
+            this.updateInsVisibilityToggle(insId);
+        }
+    }
+
+    hideIns(insId) {
+        if (this.trajectories[insId]) {
+            this.map.removeLayer(this.trajectories[insId]);
+            this.map.removeLayer(this.currentMarkers[insId]);
+            this.insConfigs[insId].visible = false;
+        }
+    }
+
+    showIns(insId) {
+        if (this.trajectories[insId]) {
+            this.trajectories[insId].addTo(this.map);
+            this.currentMarkers[insId].addTo(this.map);
+            this.insConfigs[insId].visible = true;
+        }
+    }
+
+    updateInsVisibilityToggle(insId) {
+        const button = document.getElementById(`map-toggle-${insId}`);
+        if (button) {
+            if (this.insConfigs[insId].visible) {
+                button.textContent = '👁️ Visible';
+                button.classList.remove('hidden');
+            } else {
+                button.textContent = '🙈 Hidden';
+                button.classList.add('hidden');
+            }
+        }
     }
 
 }

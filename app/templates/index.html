@@ -262,7 +262,7 @@
                 <div class="map-legend-info">
                     <div class="map-legend-name">{{ config.name }}</div>
                 </div>
-                <!-- <button class="legend-toggle" onclick="toggleInsVisibility('{{ config.id }}')" id="map-toggle-{{ config.id }}">👁️ Visible</button> -->
+                <button class="map-visible-toggle" onclick="trajectoryMonitor.toggleInsVisibility('{{ config.id }}')" id="map-toggle-{{ config.id }}">👁️ Visible</button>
             </div>
             {% endfor %}
         </div>

@@ -545,3 +545,24 @@ body {
     text-align: center;
     line-height: 20px;
 }
+
+.map-visible-toggle {
+    background: none;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.map-visible-toggle:hover {
+    background: #f8f9fa;
+}
+
+.map-visible-toggle.hidden {
+    background: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
