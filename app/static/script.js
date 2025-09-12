@@ -122,8 +122,8 @@ class INSMonitor {
             modeElement.className = `status-info-value status-info-dlmode-${dataLogger.mode}`;
         }
 
-        const spaceRatio = 100. * dataLogger.usedSpace / dataLogger.totalSpace;
-        this.updateElement(`datalogger-space-${insId}`, `${dataLogger.usedSpace} / ${dataLogger.totalSpace} (${spaceRatio} %)`);
+        const spaceRatio = (100. * dataLogger.usedSpace / dataLogger.totalSpace).toFixed(2);
+        this.updateElement(`datalogger-space-${insId}`, `${this.formatBytes(dataLogger.usedSpace)} / ${this.formatBytes(dataLogger.totalSpace)} (${spaceRatio} %)`);
     }
 
     updateGNSSMeasurements(insId, gnssId, gnssMeasurements) {
@@ -324,6 +324,15 @@ class INSMonitor {
     formatNumber(value, decimals = 2, unit = '') {
         if (value === undefined || value === null) return '--';
         return value.toFixed(decimals) + (unit ? ' ' + unit : '');
+    }
+
+    formatBytes(value) {
+        const units = ['bytes', 'kb', 'Mb', 'Gb', 'Tb', 'Pb', 'Eb', 'Zb', 'Yb'];
+        let l = 0, n = parseInt(value, 10) || 0;
+        while(n >= 1024 && ++l){
+            n = n / 1024;
+        }
+        return(n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l]);
     }
 }
 
