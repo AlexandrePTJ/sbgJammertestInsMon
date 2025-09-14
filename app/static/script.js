@@ -111,6 +111,14 @@ class INSMonitor {
     }
 
     updateDataLogger(insId, dataLogger) {
+
+        if (!dataLogger) {
+            this.updateElement(`datalogger-status-${insId}`, "--");
+            this.updateElement(`datalogger-mode-${insId}`, "--");
+            this.updateElement(`datalogger-space-${insId}`, "--");
+            return;
+        }
+
         const statusElement = document.getElementById(`datalogger-status-${insId}`);
         if (statusElement) {
             statusElement.textContent = dataLogger.status;
@@ -127,6 +135,10 @@ class INSMonitor {
     }
 
     updateGNSSMeasurements(insId, gnssId, gnssMeasurements) {
+
+        if (!gnssMeasurements) {
+            return;
+        }
 
         const gnssSectionElement = document.getElementById(`gnss${gnssId}-section-${insId}`);
         if (gnssSectionElement) {

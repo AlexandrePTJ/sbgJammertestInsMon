@@ -484,7 +484,56 @@ body {
     align-items: center;
     gap: 10px;
 }
+.map-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+}
 
+.map-control-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.map-control-label {
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.map-control-select {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    color: #333;
+    font-family: inherit;
+    min-width: 120px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23666' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 8px;
+    padding-right: 28px;
+}
+
+.map-control-select:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.map-control-select:focus {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    background: white;
+}
 .map {
     height: 500px;
     width: 100%;

@@ -10,6 +10,8 @@ class TrajectoryMonitor {
         this.trajectories = {};
         this.currentMarkers = {};
 
+        this.trackedIns = "";
+
         this.init();
     }
 
@@ -99,6 +101,10 @@ class TrajectoryMonitor {
         }
     }
 
+    setTrackedIns(insId) {
+        this.trackedIns = insId;
+    }
+
     updateDisplay(positions) {
         const insIds = Object.keys(positions);
         insIds.forEach((insId) => {
@@ -108,6 +114,10 @@ class TrajectoryMonitor {
                     this.currentMarkers[insId].setLatLng(positions[insId][0]);
                     this.currentMarkers[insId].setOpacity(1);
                     this.currentMarkers[insId].addTo(this.map);
+
+                    if (this.trackedIns === insId) {
+                        this.map.panTo(positions[insId].at(-1));
+                    }
                 }
             }
         });
