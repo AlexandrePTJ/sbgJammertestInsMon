@@ -7,7 +7,7 @@ class INSConfig:
     id: str
     name: str
     color: str
-    connection_type: str  # 'ethernet' or 'serial'
+    connection_type: str
     ip_address: Optional[str] = None
     port: int = 80
     serial_port: Optional[str] = None

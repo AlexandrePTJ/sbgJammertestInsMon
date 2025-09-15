@@ -80,7 +80,7 @@ class TimeSeriesMemoryStore:
         self._data: Dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
         self._latest: Dict[str, Dict] = {}
         self._lock = threading.RLock()
-        self.max_history_hours = max_history_hours
+        self._max_history_hours = max_history_hours
 
         self._cleanup_thread = threading.Thread(target=self._cleanup_old_data, daemon=True)
         self._cleanup_thread.start()
@@ -129,7 +129,7 @@ class TimeSeriesMemoryStore:
         while True:
             try:
                 time.sleep(300)
-                cutoff_time = datetime.utcnow() - timedelta(hours=self.max_history_hours)
+                cutoff_time = datetime.utcnow() - timedelta(hours=self._max_history_hours)
 
                 with self._lock:
                     for metric_type in self._data:
@@ -143,27 +143,26 @@ class TimeSeriesMemoryStore:
 
 class HybridMemoryStore:
     def __init__(self):
-        self.cache = MemoryCache()
-        self.timeseries = TimeSeriesMemoryStore()
+        self._cache = MemoryCache()
+        self._timeseries = TimeSeriesMemoryStore()
 
     def store_data(self, ins_id: str, data: Dict[str, Any]):
-        self.cache.set(f"data:{ins_id}:latest", data, ttl=300)
-        self.timeseries.store_metrics(ins_id, data)
+        self._cache.set(f"data:{ins_id}:latest", data, ttl=300)
+        self._timeseries.store_metrics(ins_id, data)
 
     def get_latest(self, ins_id: str) -> Optional[Dict]:
-        return self.cache.get(f"data:{ins_id}:latest")
+        return self._cache.get(f"data:{ins_id}:latest")
 
     def get_all_latest(self) -> Dict[str, Dict]:
-        return self.timeseries.get_all_latest()
+        return self._timeseries.get_all_latest()
     
     def get_positions(self, last_minutes: int = 5) -> Dict[str, List]:
-        all_latest = self.timeseries.get_all_recent(minutes=last_minutes)
+        all_latest = self._timeseries.get_all_recent(minutes=last_minutes)
         positions = {}
         for k, d in all_latest.items():
             positions[k] = []
             for v in d:
                 if v.get('data').get('online'):
                     ekf = v.get('data').get('ins_measurement').get('ekf')
-                    # positions[k].append({'latitude': ekf.get('latitude'), 'longitude': ekf.get('longitude')})
                     positions[k].append([ekf.get('latitude'), ekf.get('longitude')])
         return positions

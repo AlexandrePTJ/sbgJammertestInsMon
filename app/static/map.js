@@ -1,8 +1,6 @@
-// const insConfigs = {};
-
 class TrajectoryMonitor {
     constructor() {
-        this.updateInterval = 1000; // 1 seconde
+        this.updateInterval = 1000;
         this.isRunning = false;
         this.map = null;
 
@@ -30,14 +28,14 @@ class TrajectoryMonitor {
             insIds.forEach((insId) => {
                 const config = window.INS_CONFIGS[insId];
             
-                // Stocker la configuration
+                // Store configuration
                 this.insConfigs[insId] = {
                     name: config.name,
                     color: config.color,
                     visible: true
                 };
             
-                // Créer la trajectoire pour cet INS
+                // Empty trajectory creation
                 const trajectory = L.polyline([], {
                     color: config.color,
                     weight: 3,
@@ -45,7 +43,7 @@ class TrajectoryMonitor {
                     smoothFactor: 1
                 }).addTo(this.map);
             
-                // Créer un marqueur pour la position actuelle
+                // Marker
                 const currentMarker = L.marker([48.9100065, 2.1662488], {
                     icon: L.divIcon({
                         className: 'current-position-marker',
@@ -55,16 +53,12 @@ class TrajectoryMonitor {
                     })
                 });
             
-                // Initialement masquer les marqueurs (seront affichés quand on aura des données)
+                // Hide marker at init. Display once it has data
                 currentMarker.setOpacity(0);
             
-                // Stocker les références
+                // Stores references
                 this.trajectories[insId] = trajectory;
                 this.currentMarkers[insId] = currentMarker;
-            
-                // Données de trajectoire
-                trajectory.points = [];
-                trajectory.insId = insId;
             });
         }
 
@@ -165,7 +159,7 @@ class TrajectoryMonitor {
 
 }
 
-// Initialisation de la carte globale après le chargement de la page
+// Init map when page is loaded
 document.addEventListener('DOMContentLoaded', function() {
     window.trajectoryMonitor = new TrajectoryMonitor();
 });

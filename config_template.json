@@ -1,0 +1,14 @@
+[
+    {
+        "id": "ins_001",
+        "name": "EKINOX-D-G4A2",
+        "connection_type": "ethernet",
+        "ip_address": "1.2.3.4"
+    },
+    {
+        "id": "ins_002", 
+        "name": "NAVSIGHT-S-RU",
+        "connection_type": "ethernet",
+        "ip_address": "1.2.4.5"
+    }
+]

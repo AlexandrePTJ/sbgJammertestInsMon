@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surveillance INS SBG Systems</title>
+    <title>SBG Systems - INS Monitoring System</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='cropped-favicon.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 <body>
 <div class="header">
-    <h1>🛰️ Surveillance INS SBG Systems</h1>
+    <h1>🛰️SBG Systems - INS Monitoring System</h1>
     <div class="system-status" id="systemStatus">
-        <span id="statusText">Initialisation...</span>
+        <span id="statusText">Initializing...</span>
     </div>
 </div>
 
@@ -34,7 +35,7 @@
                 <div class="status-info-block">
                     <div class="status-info-icon">🕐</div>
                     <div class="status-info-content">
-                        <div class="status-info-title">Synchro UTC</div>
+                        <div class="status-info-title">UTC Sync</div>
                         <div class="status-info-item">
                             <span class="status-info-label">Valid:</span>
                             <span class="status-info-value" id="utc-valid-{{ config.id }}">--</span>
@@ -79,7 +80,7 @@
                 <div class="color-disabled" id="gnss{{ n }}-status-{{ config.id }}">disabled</div>
             </div>
             <div class="solution-type solution-unknown" id="gnss{{ n }}-pvt-status-{{ config.id }}">
-                Solution inconnue
+                Unknown Solution
             </div>
             <div class="data-grid">
                 <div class="data-item">
@@ -165,7 +166,7 @@
                 🎯 INS
             </div>
             <div class="solution-type solution-unknown" id="ekf-ins-solution-type-{{ config.id }}">
-                Solution Unknown
+                Unknown Solution
             </div>
             <div class="solution-type solution-unknown" id="ekf-ins-solution-aligned-{{ config.id }}">
                 Not aligned
@@ -243,7 +244,7 @@
         <div class="error-message" id="error-{{ config.id }}" style="display: none;"></div>
 
         <div class="timestamp" id="timestamp-{{ config.id }}">
-            Dernière mise à jour : --
+            Last update : --
         </div>
     </div>
     {% endfor %}
@@ -251,7 +252,7 @@
 
 <div class="map-section">
     <div class="map-header">
-        <h2 class="map-title">🗺️ Trajectoires</h2>
+        <h2 class="map-title">🗺️ Trajectories</h2>
         <div class="map-controls">
             <div class="map-control-group">
                 <label class="map-control-label">Track</label>

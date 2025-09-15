@@ -1,13 +1,13 @@
 class INSMonitor {
     constructor() {
-        this.updateInterval = 1000; // 1 seconde
+        this.updateInterval = 1000;
         this.isRunning = false;
         this.init();
     }
 
     init() {
         this.startMonitoring();
-        console.log('Surveillance INS initialisée');
+        console.log('INS monitoring initialized');
     }
 
     startMonitoring() {
@@ -17,7 +17,7 @@ class INSMonitor {
         this.fetchData();
         this.intervalId = setInterval(() => this.fetchData(), this.updateInterval);
 
-        this.updateSystemStatus('En cours d\'exécution', true);
+        this.updateSystemStatus('Running...', true);
     }
 
     stopMonitoring() {
@@ -25,7 +25,7 @@ class INSMonitor {
         if (this.intervalId) {
             clearInterval(this.intervalId);
         }
-        this.updateSystemStatus('Arrêté', false);
+        this.updateSystemStatus('Stopped', false);
     }
 
     async fetchData() {
@@ -39,8 +39,8 @@ class INSMonitor {
             this.updateDisplay(data);
 
         } catch (error) {
-            console.error('Erreur lors de la récupération des données:', error);
-            this.updateSystemStatus('Erreur de connexion', false);
+            console.error('Error on fetching /api/data:', error);
+            this.updateSystemStatus('Connection error', false);
         }
     }
 
@@ -48,24 +48,20 @@ class INSMonitor {
         Object.entries(allData).forEach(([insId, data]) => {
             this.updateINSCard(insId, data.data);
 
-            // Timestamp
-            this.updateElement(`timestamp-${insId}`, `Dernière mise à jour : ${data.timestamp}`);
+            this.updateElement(`timestamp-${insId}`, `Last update : ${data.timestamp}`);
         });
 
-        // Mise à jour du statut système
         const onlineCount = Object.values(allData).filter(data => data.data.online).length;
         const totalCount = Object.keys(allData).length;
-        this.updateSystemStatus(`${onlineCount}/${totalCount} INS en ligne`, onlineCount > 0);
+        this.updateSystemStatus(`Online : ${onlineCount}/${totalCount}`, onlineCount > 0);
     }
 
     updateINSCard(insId, data) {
-        // Statut en ligne
         const statusIndicator = document.getElementById(`status-${insId}`);
         if (statusIndicator) {
             statusIndicator.className = `status-indicator ${data.online ? 'status-online' : 'status-offline'}`;
         }
 
-        // Message d'erreur
         const errorElement = document.getElementById(`error-${insId}`);
         if (errorElement) {
             if (data.error_message && !data.online) {
@@ -78,20 +74,15 @@ class INSMonitor {
 
         if (!data.online) { return; }
 
-        // UTC Clock
         this.updateUTCStatus(insId, data.status.utc, data.ins_measurement.dateTime);
 
-        // DataLogger
         this.updateDataLogger(insId, data.datalogger);
 
-        // Position GNSS avec std dev
         this.updateGNSSMeasurements(insId, 1, data.gnss1_measurement);
         this.updateGNSSMeasurements(insId, 2, data.gnss2_measurement);
 
-        // Position EKF avec std dev
         this.updateEkfMeasurements(insId, data.ins_measurement.ekf, data.status.ins.type, data.status.ins.alignment);
 
-        // Solution INS
         this.updateInsSolution(insId, data.status);
     }
 
@@ -348,24 +339,10 @@ class INSMonitor {
     }
 }
 
-// Initialisation de l'application
 document.addEventListener('DOMContentLoaded', () => {
     window.insMonitor = new INSMonitor();
 });
 
-// Gestion des erreurs globales
 window.addEventListener('error', (e) => {
     console.error('Erreur JavaScript:', e.error);
-});
-
-// Gestion de la visibilité de la page
-document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-        console.log('Page cachée - surveillance suspendue');
-    } else {
-        console.log('Page visible - surveillance reprise');
-        if (window.insMonitor) {
-            window.insMonitor.fetchData();
-        }
-    }
 });
