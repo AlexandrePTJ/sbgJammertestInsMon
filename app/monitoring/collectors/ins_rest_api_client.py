@@ -14,13 +14,26 @@ class InsRestApiClient:
         try:
             ins_data['status'] = self._get_json("status")
             ins_data['ins_measurement'] = self._get_json("data")
-            ins_data['gnss1_measurement'] = self._get_json("gnss1")
-            ins_data['gnss2_measurement'] = self._get_json("gnss2")
-            ins_data['datalogger'] = self._get_json("dataLogger")
             ins_data['online'] = True
         except requests.RequestException as exc:
             ins_data['online'] = False
             ins_data['error_message'] = str(exc)
+        else:
+            try:
+                ins_data['gnss1_measurement'] = self._get_json("gnss1")
+            except requests.RequestException as exc:
+                ins_data['gnss1_measurement'] = None
+            
+            try:
+                ins_data['gnss2_measurement'] = self._get_json("gnss2")
+            except requests.RequestException as exc:
+                ins_data['gnss1_measurement'] = None
+            
+            try:
+                ins_data['datalogger'] = self._get_json("dataLogger")
+            except requests.RequestException as exc:
+                ins_data['datalogger'] = None
+            
         return ins_data
 
     def _build_url(self, path: str) -> str:

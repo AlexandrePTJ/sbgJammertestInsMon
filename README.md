@@ -1,5 +1,6 @@
-# sbgInsMon (claude generated version)
+# SBG Systems - INS Monitoring system
 
+Dashboard created fo follow INS data during Jammertest 2025
 
 ## Install
 
