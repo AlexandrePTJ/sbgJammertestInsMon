@@ -1,6 +1,6 @@
 # SBG Systems - INS Monitoring system
 
-Dashboard created fo follow INS data during Jammertest 2025
+Quick'n'Dirty Dashboard created fo follow INS data during Jammertest 2025
 
 ## Install
 
